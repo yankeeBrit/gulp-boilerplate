@@ -1,0 +1,39 @@
+@import "bourbon";
+@import "grid-settings";
+@import "neat";
+
+$small: new-breakpoint(max-width 479px);
+$medium: new-breakpoint(max-width 767px);
+$large: new-breakpoint(max-width 991px);
+$x-large: new-breakpoint(max-width 1199px);
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+}
+
+.inner {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  border: 100px solid transparent;
+  border-width: 0 100px;
+  overflow: hidden;
+  
+  @include media($x-large) {
+    border: 50px solid transparent;
+    border-width: 0 50px;
+  }
+  
+  @include media($medium) {
+    border: 15px solid transparent;
+    border-width: 0 15px;
+  }
+}
