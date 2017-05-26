@@ -1,4 +1,4 @@
-# A boilerplate that includes Gulp, SASS, Bourbon, Neat, Autoprefixer, JSHint, Concat, Uglify, and BrowserSync for new projects
+# A ready-to-go Gulp boilerplate for new projects
 
 ### Included
 
