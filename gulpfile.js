@@ -1,18 +1,17 @@
 'use strict';
 
-var gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    bourbon = require('node-bourbon').includePaths,
-    neat = require('node-neat').includePaths,
+var gulp         = require('gulp'),
+    gutil        = require('gulp-util'),
+    sass         = require('gulp-sass'),
+    sourcemaps   = require('gulp-sourcemaps'),
+    bourbon      = require('node-bourbon').includePaths,
+    neat         = require('node-neat').includePaths,
     autoprefixer = require('gulp-autoprefixer'),
-    cleanCSS = require('gulp-clean-css'),
-    jshint = require('gulp-jshint'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    browserSync = require('browser-sync');
-		
+    cleanCSS     = require('gulp-clean-css'),
+    jshint       = require('gulp-jshint'),
+    concat       = require('gulp-concat'),
+    uglify       = require('gulp-uglify'),
+    browserSync  = require('browser-sync');
 
 // Live reload anytime a file changes
 gulp.task('default', ['watch']);
@@ -35,14 +34,15 @@ gulp.task('build-css', function() {
     .pipe(autoprefixer())
     .pipe(cleanCSS())
     .pipe(sourcemaps.write()) // Add the map to modified source.
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('dist/css'))
+    .pipe(browserSync.stream());
 });
 
 // configure the jshint task
 gulp.task('jshint', ['build-js'], function() {
   return gulp.src('src/js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('default'));
 });
 
 // configure the build-js task
@@ -52,7 +52,8 @@ gulp.task('build-js', function() {
     .pipe(concat('bundle.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('dist/js'))
+    .pipe(browserSync.stream());
 });
 
 // Spin up a server
