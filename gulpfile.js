@@ -17,9 +17,9 @@ var gulp         = require('gulp'),
 gulp.task('default', ['watch']);
 
 // configure which files to watch and what tasks to use on file changes
-gulp.task('watch', ['browserSync', 'build-css', 'jshint'], function() {
+gulp.task('watch', ['browserSync', 'build-css', 'build-js'], function() {
   gulp.watch('src/scss/**/*.scss', ['build-css']);
-  gulp.watch('src/js/**/*.js', ['jshint']);
+  gulp.watch('src/js/**/*.js', ['build-js']);
   gulp.watch('dist/*.html').on('change', browserSync.reload);
 });
 
@@ -27,6 +27,7 @@ gulp.task('watch', ['browserSync', 'build-css', 'jshint'], function() {
 gulp.task('build-css', function() {
   return gulp.src('src/scss/**/*.scss')
     .pipe(sourcemaps.init())  // Process the original sources
+    .pipe(concat('styles.css'))
     .pipe(sass({
 			  includePaths: bourbon,
 			  includePaths: neat
@@ -38,22 +39,22 @@ gulp.task('build-css', function() {
     .pipe(browserSync.stream());
 });
 
-// configure the jshint task
-gulp.task('jshint', ['build-js'], function() {
-  return gulp.src('src/js/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
 // configure the build-js task
-gulp.task('build-js', function() {
+gulp.task('build-js', ['jshint'], function() {
   return gulp.src('src/js/**/*.js')
     .pipe(sourcemaps.init())
-    .pipe(concat('bundle.js'))
+    .pipe(concat('main.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream());
+});
+
+// configure the jshint task
+gulp.task('jshint', function() {
+  return gulp.src('src/js/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 // Spin up a server
